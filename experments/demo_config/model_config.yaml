@@ -9,11 +9,11 @@ Base: # The `Base` is shared by different expid settings
     every_x_epochs: 1
     debug: False
     partition_block_size: -1
+    dataset_id: avazu_x4
 
 
 DeepFM_base:
     model: DeepFM
-    dataset_id: taobao_tiny
     loss: 'binary_crossentropy'
     metrics: ['logloss', 'AUC']
     task: binary_classification
@@ -36,7 +36,6 @@ DeepFM_base:
 
 DeepFM_fft:
     model: DeepFM_fft
-    dataset_id: taobao_tiny # use h5 data as input
     loss: 'binary_crossentropy'
     metrics: ['logloss', 'AUC']
     task: binary_classification
@@ -60,7 +59,6 @@ DeepFM_fft:
 
 AutoInt_base:
     model: AutoInt
-    dataset_id: taobao_tiny
     loss: 'binary_crossentropy'
     metrics: ['logloss', 'AUC']
     task: binary_classification
@@ -89,7 +87,6 @@ AutoInt_base:
 
 AutoInt_fft:
     model: AutoInt_fft
-    dataset_id: taobao_tiny
     loss: 'binary_crossentropy'
     metrics: ['logloss', 'AUC']
     task: binary_classification
@@ -118,3 +115,47 @@ AutoInt_fft:
     alpha_fft: 1
 
 
+DCN_base:
+    model: DCN
+    loss: 'binary_crossentropy'
+    metrics: ['logloss', 'AUC']
+    task: binary_classification
+    optimizer: adam
+    learning_rate: 1.0e-3
+    embedding_regularizer: 0
+    net_regularizer: 0
+    batch_size: 10000
+    embedding_dim: 40
+    dnn_hidden_units: [500, 500, 500]
+    dnn_activations: relu
+    crossing_layers: 3
+    net_dropout: 0
+    batch_norm: False
+    epochs: 100
+    shuffle: True
+    seed: 2019
+    monitor: {'AUC': 1, 'logloss': -1}
+    monitor_mode: 'max'
+
+
+DCN_fft:
+    model: DCN_fft
+    loss: 'binary_crossentropy'
+    metrics: ['logloss', 'AUC']
+    task: binary_classification
+    optimizer: adam
+    learning_rate: 1.0e-3
+    embedding_regularizer: 0
+    net_regularizer: 0
+    batch_size: 10000
+    embedding_dim: 40
+    dnn_hidden_units: [500, 500, 500]
+    dnn_activations: relu
+    crossing_layers: 3
+    net_dropout: 0
+    batch_norm: False
+    epochs: 100
+    shuffle: True
+    seed: 2019
+    monitor: {'AUC': 1, 'logloss': -1}
+    monitor_mode: 'max'
