@@ -1,0 +1,52 @@
+### Tiny data for tests only
+taobao_tiny:
+    data_root: ../data/
+    data_format: csv
+    train_data: ../data/tiny_data/train_sample.csv
+    valid_data: ../data/tiny_data/valid_sample.csv
+    test_data: ../data/tiny_data/test_sample.csv
+    min_categr_count: 1
+    feature_cols:
+        [{name: ["userid","adgroup_id","pid","cate_id","campaign_id","customer","brand","cms_segid",
+                 "cms_group_id","final_gender_code","age_level","pvalue_level","shopping_level","occupation"],
+                 active: True, dtype: str, type: categorical}]
+    label_col: {name: clk, dtype: float}
+
+
+### Avazu dataset
+avazu_x4:
+    data_root: ../data/Avazu/
+    data_format: csv
+    train_data: ../data/Avazu/Avazu_x4/train.csv
+    valid_data: ../data/Avazu/Avazu_x4/valid.csv
+    test_data: ../data/Avazu/Avazu_x4/test.csv
+    min_categr_count: 2
+    data_block_size: -1
+    feature_cols:
+        - {name: id, active: False, dtype: str, type: categorical}
+        - {name: hour, active: True, dtype: str, type: categorical, preprocess: convert_hour}
+        - {name: [C1,banner_pos,site_id,site_domain,site_category,app_id,app_domain,app_category,device_id,
+                  device_ip,device_model,device_type,device_conn_type,C14,C15,C16,C17,C18,C19,C20,C21],
+           active: True, dtype: str, type: categorical}
+        - {name: weekday, active: True, dtype: str, type: categorical, preprocess: convert_weekday}
+        - {name: weekend, active: True, dtype: str, type: categorical, preprocess: convert_weekend}
+    label_col: {name: click, dtype: float}
+
+
+
+
+### Criteo dataset
+criteo_x4:
+    data_root: ../data/Criteo/
+    data_format: csv
+    train_data: ../data/Criteo/Criteo_x4/train.csv
+    valid_data: ../data/Criteo/Criteo_x4/valid.csv
+    test_data: ../data/Criteo/Criteo_x4/test.csv
+    min_categr_count: 10
+    data_block_size: -1
+    feature_cols:
+        - {name: [I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13],
+           active: True, dtype: float, type: categorical, preprocess: convert_to_bucket, na_value: 0}
+        - {name: [C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,C21,C22,C23,C24,C25,C26],
+           active: True, dtype: str, type: categorical, na_value: ""}
+    label_col: {name: Label, dtype: float}
