@@ -9,7 +9,8 @@ Base: # The `Base` is shared by different expid settings
     every_x_epochs: 1
     debug: False
     partition_block_size: -1
-    dataset_id: avazu_x4
+    dataset_id: taobao_tiny
+    gpu: 0
 
 
 DeepFM_base:

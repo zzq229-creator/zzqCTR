@@ -5,7 +5,8 @@ import os
 import logging
 from datetime import datetime
 from fuxictr import datasets
-from fuxictr.datasets.taobao import FeatureEncoder
+# from fuxictr.datasets.taobao import FeatureEncoder
+from fuxictr import datasets
 from fuxictr.features import FeatureMap
 from fuxictr.utils import load_config, set_logger, print_to_json
 from fuxictr.pytorch.models import DeepFM, DeepFM_fft, AutoInt, AutoInt_fft, DCN, DCN_fft
@@ -23,6 +24,12 @@ if __name__ == '__main__':
     seed_everything(seed=params['seed'])
 
     # Set feature_encoder that defines how to preprocess data
+    if params['dataset_id'] == 'taobao_tiny':
+        FeatureEncoder = datasets.taobao.FeatureEncoder
+    elif params['dataset_id'] == 'avazu_x4':
+        FeatureEncoder = datasets.avazu.FeatureEncoder
+    elif params['dataset_id'] == 'criteo_x4':
+        FeatureEncoder = datasets.criteo.FeatureEncoder
     feature_encoder = FeatureEncoder(params['feature_cols'],
                                      params['label_col'],
                                      dataset_id=params['dataset_id'],
