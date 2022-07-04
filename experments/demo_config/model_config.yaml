@@ -27,7 +27,7 @@ DeepFM_base:
     batch_norm: False
     net_dropout: 0
     batch_size: 10000
-    embedding_dim: 40
+    embedding_dim: 16
     epochs: 100
     shuffle: True
     seed: 2019
@@ -49,7 +49,7 @@ DeepFM_fft:
     batch_norm: False
     net_dropout: 0
     batch_size: 10000
-    embedding_dim: 40
+    embedding_dim: 16
     epochs: 100
     shuffle: True
     seed: 2019
@@ -68,7 +68,7 @@ AutoInt_base:
     embedding_regularizer: 0
     net_regularizer: 0
     batch_size: 10000
-    embedding_dim: 40
+    embedding_dim: 16
     dnn_hidden_units: [400, 400]
     dnn_activations: relu
     net_dropout: 0
@@ -96,7 +96,7 @@ AutoInt_fft:
     embedding_regularizer: 0
     net_regularizer: 0
     batch_size: 10000
-    embedding_dim: 40
+    embedding_dim: 16
     dnn_hidden_units: [400, 400]
     dnn_activations: relu
     net_dropout: 0
@@ -126,7 +126,7 @@ DCN_base:
     embedding_regularizer: 0
     net_regularizer: 0
     batch_size: 10000
-    embedding_dim: 40
+    embedding_dim: 16
     dnn_hidden_units: [500, 500, 500]
     dnn_activations: relu
     crossing_layers: 3
@@ -149,7 +149,7 @@ DCN_fft:
     embedding_regularizer: 0
     net_regularizer: 0
     batch_size: 10000
-    embedding_dim: 40
+    embedding_dim: 16
     dnn_hidden_units: [500, 500, 500]
     dnn_activations: relu
     crossing_layers: 3
