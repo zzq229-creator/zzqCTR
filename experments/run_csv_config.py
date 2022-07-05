@@ -17,7 +17,7 @@ import argparse
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model Params')
-    parser.add_argument('--model', type=str, default='AutoInt_base')
+    parser.add_argument('--model', type=str, default='AutoInt_fft')
     parser.add_argument('--gpu', type=int, default=0)
     return parser.parse_args()
 
@@ -29,7 +29,6 @@ if __name__ == '__main__':
     # experiment_id = 'AutoInt_fft'  # correponds to csv input `taobao_tiny`
     experiment_id = args.model
     params = load_config(config_dir, experiment_id)
-    params['dataset_id'] = args.dataset
     params['gpu'] = args.gpu
     # set up logger and random seed
     set_logger(params)
@@ -37,11 +36,11 @@ if __name__ == '__main__':
     seed_everything(seed=params['seed'])
 
     # Set feature_encoder that defines how to preprocess data
-    if params['dataset_id'] == 'taobao_tiny':
+    if params['dataset_id'] in ['taobao_tiny', 'taobao_tiny_h5']:
         FeatureEncoder = datasets.taobao.FeatureEncoder
-    elif params['dataset_id'] == 'avazu_x4':
+    elif params['dataset_id'] in ['avazu_x4', 'avazu_x4_h5']:
         FeatureEncoder = datasets.avazu.FeatureEncoder
-    elif params['dataset_id'] == 'criteo_x4':
+    elif params['dataset_id'] in ['criteo_x4', 'criteo_x4_h5']:
         FeatureEncoder = datasets.criteo.FeatureEncoder
     feature_encoder = FeatureEncoder(params['feature_cols'],
                                      params['label_col'],
