@@ -27,7 +27,7 @@ avazu_x4:
     train_data: ../data/Avazu/Avazu_x4/train.csv
     valid_data: ../data/Avazu/Avazu_x4/valid.csv
     test_data: ../data/Avazu/Avazu_x4/test.csv
-    min_categr_count: 1
+    min_categr_count: 2
     data_block_size: -1
     feature_cols:
         - {name: id, active: False, dtype: str, type: categorical}
@@ -54,7 +54,7 @@ criteo_x4:
     train_data: ../data/Criteo/Criteo_x4/train.csv
     valid_data: ../data/Criteo/Criteo_x4/valid.csv
     test_data: ../data/Criteo/Criteo_x4/test.csv
-    min_categr_count: 2
+    min_categr_count: 10
     data_block_size: -1
     feature_cols:
         - {name: [I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13],
@@ -62,3 +62,11 @@ criteo_x4:
         - {name: [C1,C2,C3,C4,C5,C6,C7,C8,C9,C10,C11,C12,C13,C14,C15,C16,C17,C18,C19,C20,C21,C22,C23,C24,C25,C26],
            active: True, dtype: str, type: categorical, na_value: ""}
     label_col: {name: Label, dtype: float}
+
+
+criteo_x4_h5:
+    data_root: ../data/
+    data_format: h5
+    train_data: ../data/criteo_x4_h5/train.h5
+    valid_data: ../data/criteo_x4_h5/valid.h5
+    test_data: ../data/criteo_x4_h5/test.h5
