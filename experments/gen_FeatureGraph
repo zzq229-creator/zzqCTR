@@ -12,21 +12,17 @@ from fuxictr.utils import load_config, set_logger, print_to_json
 from fuxictr.pytorch.models import DeepFM, DeepFM_fft, AutoInt, AutoInt_fft, DCN, DCN_fft
 from fuxictr.pytorch.torch_utils import seed_everything
 
-import argparse
 
-def parse_args():
-    parser = argparse.ArgumentParser(description='Model Params')
-    parser.add_argument('--model', type=str)
-    parser.add_argument('--dataset', type=str)
-    return parser.parse_args()
+def gen(data_gen):
+    pass
+
+
 if __name__ == '__main__':
-    args = parse_args()
     # Load params from config files
     config_dir = 'demo_config'
-    # experiment_id = 'AutoInt_fft'  # correponds to csv input `taobao_tiny`
-    experiment_id = args.model
+    experiment_id = 'AutoInt_fft'  # correponds to csv input `taobao_tiny`
     params = load_config(config_dir, experiment_id)
-    params['dataset_id']=args.dataset
+
     # set up logger and random seed
     set_logger(params)
     logging.info(print_to_json(params))
@@ -62,33 +58,4 @@ if __name__ == '__main__':
                                                  batch_size=params['batch_size'],
                                                  shuffle=params['shuffle'])
 
-    # Model initialization and fitting                                                  
-    if experiment_id == 'DeepFM_base':
-        model = DeepFM(feature_encoder.feature_map, **params)
-    elif experiment_id == 'DeepFM_fft':
-        model = DeepFM_fft(feature_encoder.feature_map, **params)
-    if experiment_id == 'AutoInt_base':
-        model = AutoInt(feature_encoder.feature_map, **params)
-    elif experiment_id == 'AutoInt_fft':
-        model = AutoInt_fft(feature_encoder.feature_map, **params)
-    if experiment_id == 'DCN_base':
-        model = DCN(feature_encoder.feature_map, **params)
-    elif experiment_id == 'DCN_fft':
-        model = DCN_fft(feature_encoder.feature_map, **params)
-    model.count_parameters()  # print number of parameters used in model
-    model.fit_generator(train_gen,
-                        validation_data=valid_gen,
-                        epochs=params['epochs'],
-                        verbose=params['verbose'])
-    model.load_weights(model.checkpoint)  # reload the best checkpoint
-
-    logging.info('***** validation results *****')
-    model.evaluate_generator(valid_gen)
-
-    logging.info('***** validation results *****')
-    test_gen = datasets.h5_generator(feature_map,
-                                     stage='test',
-                                     test_data=os.path.join(data_dir, 'test.h5'),
-                                     batch_size=params['batch_size'],
-                                     shuffle=False)
-    model.evaluate_generator(test_gen)
+    gen(train_gen)
