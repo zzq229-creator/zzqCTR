@@ -17,12 +17,9 @@ import argparse
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model Params')
-    parser.add_argument('--model', type=str, default='AutoInt_fft')
-    parser.add_argument('--dataset', type=str,default='taobao_tiny')
+    parser.add_argument('--model', type=str, default='AutoInt_base')
     parser.add_argument('--gpu', type=int, default=0)
     return parser.parse_args()
-
-
 
 
 if __name__ == '__main__':
@@ -33,6 +30,7 @@ if __name__ == '__main__':
     experiment_id = args.model
     params = load_config(config_dir, experiment_id)
     params['dataset_id'] = args.dataset
+    params['gpu'] = args.gpu
     # set up logger and random seed
     set_logger(params)
     logging.info(print_to_json(params))
