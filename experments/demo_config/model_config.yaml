@@ -9,7 +9,7 @@ Base: # The `Base` is shared by different expid settings
     every_x_epochs: 1
     debug: False
     partition_block_size: -1
-    dataset_id: taobao_tiny
+    dataset_id: taobao_tiny_h5
     gpu: 0
 
 

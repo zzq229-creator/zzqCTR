@@ -35,49 +35,63 @@ if __name__ == '__main__':
     logging.info(print_to_json(params))
     seed_everything(seed=params['seed'])
 
-    # Set feature_encoder that defines how to preprocess data
-    if params['dataset_id'] in ['taobao_tiny', 'taobao_tiny_h5']:
-        FeatureEncoder = datasets.taobao.FeatureEncoder
-    elif params['dataset_id'] in ['avazu_x4', 'avazu_x4_h5']:
-        FeatureEncoder = datasets.avazu.FeatureEncoder
-    elif params['dataset_id'] in ['criteo_x4', 'criteo_x4_h5']:
-        FeatureEncoder = datasets.criteo.FeatureEncoder
-    feature_encoder = FeatureEncoder(params['feature_cols'],
-                                     params['label_col'],
-                                     dataset_id=params['dataset_id'],
-                                     data_root=params["data_root"])
+    if 'h5' in params['dataset_id']:
+        # Load feature_map from json
+        data_dir = os.path.join(params['data_root'], params['dataset_id'])
+        feature_map = FeatureMap(params['dataset_id'], data_dir)
+        feature_map.load(os.path.join(data_dir, "feature_map.json"))
 
-    # Build dataset from csv to h5
-    datasets.build_dataset(feature_encoder,
-                           train_data=params["train_data"],
-                           valid_data=params["valid_data"],
-                           test_data=params["test_data"])
+        # Get train and validation data generator from h5
+        train_gen, valid_gen = datasets.h5_generator(feature_map,
+                                                     stage='train',
+                                                     train_data=os.path.join(data_dir, 'train.h5'),
+                                                     valid_data=os.path.join(data_dir, 'valid.h5'),
+                                                     batch_size=params['batch_size'],
+                                                     shuffle=params['shuffle'])
+    else:
+        # Set feature_encoder that defines how to preprocess data
+        if params['dataset_id'] == 'taobao_tiny':
+            FeatureEncoder = datasets.taobao.FeatureEncoder
+        elif params['dataset_id'] == 'avazu_x4':
+            FeatureEncoder = datasets.avazu.FeatureEncoder
+        elif params['dataset_id'] == 'criteo_x4':
+            FeatureEncoder = datasets.criteo.FeatureEncoder
+        feature_encoder = FeatureEncoder(params['feature_cols'],
+                                         params['label_col'],
+                                         dataset_id=params['dataset_id'],
+                                         data_root=params["data_root"])
 
-    # Get feature_map that defines feature specs
-    feature_map = feature_encoder.feature_map
+        # Build dataset from csv to h5
+        datasets.build_dataset(feature_encoder,
+                               train_data=params["train_data"],
+                               valid_data=params["valid_data"],
+                               test_data=params["test_data"])
 
-    # Get train and validation data generator from h5
-    data_dir = os.path.join(params['data_root'], params['dataset_id'])
-    train_gen, valid_gen = datasets.h5_generator(feature_map,
-                                                 stage='train',
-                                                 train_data=os.path.join(data_dir, 'train.h5'),
-                                                 valid_data=os.path.join(data_dir, 'valid.h5'),
-                                                 batch_size=params['batch_size'],
-                                                 shuffle=params['shuffle'])
+        # Get feature_map that defines feature specs
+        feature_map = feature_encoder.feature_map
+
+        # Get train and validation data generator from h5
+        data_dir = os.path.join(params['data_root'], params['dataset_id'])
+        train_gen, valid_gen = datasets.h5_generator(feature_map,
+                                                     stage='train',
+                                                     train_data=os.path.join(data_dir, 'train.h5'),
+                                                     valid_data=os.path.join(data_dir, 'valid.h5'),
+                                                     batch_size=params['batch_size'],
+                                                     shuffle=params['shuffle'])
 
     # Model initialization and fitting
     if experiment_id == 'DeepFM_base':
-        model = DeepFM(feature_encoder.feature_map, **params)
+        model = DeepFM(feature_map, **params)
     elif experiment_id == 'DeepFM_fft':
-        model = DeepFM_fft(feature_encoder.feature_map, **params)
+        model = DeepFM_fft(feature_map, **params)
     if experiment_id == 'AutoInt_base':
-        model = AutoInt(feature_encoder.feature_map, **params)
+        model = AutoInt(feature_map, **params)
     elif experiment_id == 'AutoInt_fft':
-        model = AutoInt_fft(feature_encoder.feature_map, **params)
+        model = AutoInt_fft(feature_map, **params)
     if experiment_id == 'DCN_base':
-        model = DCN(feature_encoder.feature_map, **params)
+        model = DCN(feature_map, **params)
     elif experiment_id == 'DCN_fft':
-        model = DCN_fft(feature_encoder.feature_map, **params)
+        model = DCN_fft(feature_map, **params)
     model.count_parameters()  # print number of parameters used in model
     model.fit_generator(train_gen,
                         validation_data=valid_gen,
