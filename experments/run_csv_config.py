@@ -14,11 +14,17 @@ from fuxictr.pytorch.torch_utils import seed_everything
 
 import argparse
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Model Params')
-    parser.add_argument('--model', type=str)
-    parser.add_argument('--dataset', type=str)
+    parser.add_argument('--model', type=str, default='AutoInt_fft')
+    parser.add_argument('--dataset', type=str,default='taobao_tiny')
+    parser.add_argument('--gpu', type=int, default=0)
     return parser.parse_args()
+
+
+
+
 if __name__ == '__main__':
     args = parse_args()
     # Load params from config files
@@ -26,7 +32,7 @@ if __name__ == '__main__':
     # experiment_id = 'AutoInt_fft'  # correponds to csv input `taobao_tiny`
     experiment_id = args.model
     params = load_config(config_dir, experiment_id)
-    params['dataset_id']=args.dataset
+    params['dataset_id'] = args.dataset
     # set up logger and random seed
     set_logger(params)
     logging.info(print_to_json(params))
@@ -62,7 +68,7 @@ if __name__ == '__main__':
                                                  batch_size=params['batch_size'],
                                                  shuffle=params['shuffle'])
 
-    # Model initialization and fitting                                                  
+    # Model initialization and fitting
     if experiment_id == 'DeepFM_base':
         model = DeepFM(feature_encoder.feature_map, **params)
     elif experiment_id == 'DeepFM_fft':

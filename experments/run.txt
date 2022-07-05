@@ -1,0 +1,5 @@
+python run_csv_config.py --model --dataset avazu_x4 AutoInt --gpu 0
+python run_csv_config.py --model --dataset avazu_x4 AutoInt_fft --gpu 0
+
+python run_csv_config.py --model --dataset avazu_x4 DCN --gpu 1
+python run_csv_config.py --model --dataset avazu_x4 DCN_fft --gpu 1
