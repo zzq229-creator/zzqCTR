@@ -15,6 +15,7 @@ Base: # The `Base` is shared by different expid settings
 
 
 AutoInt_base_criteo:
+    dataset_id: criteo_x4_h5
     attention_dim: 64
     attention_layers: 5
     batch_norm: false
@@ -54,11 +55,11 @@ AutoInt_base_criteo:
     workers: 3
 
 AutoInt_fft_criteo:
+    dataset_id: criteo_x4_h5
     attention_dim: 64
     attention_layers: 5
     batch_norm: false
     batch_size: 10000
-    dataset_id: criteo_x4
     debug: false
     dnn_activations: relu
     dnn_hidden_units: [1000, 1000, 1000]
@@ -95,6 +96,7 @@ AutoInt_fft_criteo:
     alpha_fft: 1
 
 AutoInt_base_avazu:
+    dataset_id: avazu_x4_h5
     attention_dim: 128
     attention_layers: 7
     batch_norm: false
@@ -134,6 +136,7 @@ AutoInt_base_avazu:
     workers: 3
 
 AutoInt_fft_avazu:
+    dataset_id: avazu_x4_h5
     attention_dim: 128
     attention_layers: 7
     batch_norm: false
@@ -175,6 +178,7 @@ AutoInt_fft_avazu:
 
 
 DCN_base_criteo:
+    dataset_id: criteo_x4_h5
     batch_norm: false
     batch_size: 10000
     crossing_layers: 4
@@ -209,6 +213,7 @@ DCN_base_criteo:
 
 
 DCN_fft_criteo:
+    dataset_id: criteo_x4_h5
     batch_norm: false
     batch_size: 10000
     crossing_layers: 4
@@ -244,6 +249,7 @@ DCN_fft_criteo:
 
 
 DCN_base_avazu:
+    dataset_id: avazu_x4_h5
     batch_norm: false
     batch_size: 10000
     crossing_layers: 3
@@ -277,6 +283,7 @@ DCN_base_avazu:
     workers: 3
 
 DCN_fft_avazu:
+    dataset_id: avazu_x4_h5
     batch_norm: false
     batch_size: 10000
     crossing_layers: 3

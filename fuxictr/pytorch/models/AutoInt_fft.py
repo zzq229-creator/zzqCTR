@@ -72,7 +72,7 @@ class AutoInt_fft(BaseModel):
                                      layer_norm=layer_norm,
                                      align_to="output")
               for i in range(attention_layers)])
-        self.fc = nn.Linear(feature_map.num_fields * attention_dim * num_heads, 1)
+        self.fc = nn.Linear(feature_map.num_fields * embedding_dim * num_heads, 1)
         self.output_activation = self.get_output_activation(task)
         self.compile(kwargs["optimizer"], loss=kwargs["loss"], lr=learning_rate)
         self.reset_parameters()
