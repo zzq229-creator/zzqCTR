@@ -17,7 +17,7 @@ import argparse
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model Params')
-    parser.add_argument('--experiment_id', type=str, default='AutoInt_base_Avazu')
+    parser.add_argument('--experiment_id', type=str, default='AutoInt_base_avazu')
     parser.add_argument('--gpu', type=int, default=0)
     return parser.parse_args()
 
@@ -80,17 +80,17 @@ if __name__ == '__main__':
                                                      shuffle=params['shuffle'])
 
     # Model initialization and fitting
-    if experiment_id == 'DeepFM_base':
+    if 'DeepFM_base' in experiment_id:
         model = DeepFM(feature_map, **params)
-    elif experiment_id == 'DeepFM_fft':
+    elif 'DeepFM_fft' in experiment_id:
         model = DeepFM_fft(feature_map, **params)
-    if experiment_id == 'AutoInt_base':
+    if 'AutoInt_base' in experiment_id:
         model = AutoInt(feature_map, **params)
-    elif experiment_id == 'AutoInt_fft':
+    elif 'AutoInt_fft' in experiment_id:
         model = AutoInt_fft(feature_map, **params)
-    if experiment_id == 'DCN_base':
+    if 'DCN_base' in experiment_id:
         model = DCN(feature_map, **params)
-    elif experiment_id == 'DCN_fft':
+    elif 'DCN_fft' in experiment_id:
         model = DCN_fft(feature_map, **params)
     model.count_parameters()  # print number of parameters used in model
     model.fit_generator(train_gen,
