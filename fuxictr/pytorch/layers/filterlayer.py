@@ -34,8 +34,6 @@ class FilterLayer(nn.Module):
         x = torch.fft.rfft(input_tensor, dim=1, norm='ortho')
         weight = torch.view_as_complex(self.complex_weight)
         x = x * weight
-
-
         sequence_emb_fft = torch.fft.irfft(x, n=seq_len, dim=1, norm='ortho')
         hidden_states = self.out_dropout(sequence_emb_fft)
         hidden_states = self.LayerNorm(hidden_states + input_tensor)

@@ -17,7 +17,7 @@ import argparse
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model Params')
-    parser.add_argument('--model', type=str, default='AutoInt_fft')
+    parser.add_argument('--experiment_id', type=str, default='AutoInt_base_Avazu')
     parser.add_argument('--gpu', type=int, default=0)
     return parser.parse_args()
 
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     # Load params from config files
     config_dir = 'demo_config'
     # experiment_id = 'AutoInt_fft'  # correponds to csv input `taobao_tiny`
-    experiment_id = args.model
+    experiment_id = args.experiment_id
     params = load_config(config_dir, experiment_id)
     params['gpu'] = args.gpu
     # set up logger and random seed
@@ -97,7 +97,7 @@ if __name__ == '__main__':
                         validation_data=valid_gen,
                         epochs=params['epochs'],
                         verbose=params['verbose'])
-    model.load_weights(model.checkpoint)  # reload the best checkpoint
+    model.load_weights(model.checkpoint) # reload the best checkpoint
 
     logging.info('***** validation results *****')
     model.evaluate_generator(valid_gen)

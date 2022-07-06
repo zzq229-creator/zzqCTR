@@ -42,12 +42,12 @@ if __name__ == '__main__':
                         epochs=params['epochs'],
                         verbose=params['verbose'])
     model.load_weights(model.checkpoint) # reload the best checkpoint
-    
+
     logging.info('***** validation results *****')
     model.evaluate_generator(valid_gen)
 
     logging.info('***** validation results *****')
-    test_gen = datasets.h5_generator(feature_map, 
+    test_gen = datasets.h5_generator(feature_map,
                                      stage='test',
                                      test_data=os.path.join(data_dir, 'test.h5'),
                                      batch_size=params['batch_size'],
