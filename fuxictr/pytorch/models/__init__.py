@@ -43,3 +43,4 @@ from .DCN_fft import DCN_fft
 from .AutoInt_fft import AutoInt_fft
 from .DNN_fft import DNN_fft
 from .DNN_pool import DNN_pool
+from .DCN_pool import DCN_pool
