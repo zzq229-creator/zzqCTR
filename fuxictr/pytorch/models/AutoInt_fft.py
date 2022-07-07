@@ -65,7 +65,7 @@ class AutoInt_fft(BaseModel):
             if dnn_hidden_units else None  # in case no DNN used
         self.filterlayer = nn.Sequential(*[FilterLayer(alpha_fft=alpha_fft, max_seq_length=feature_map.num_fields, hidden_size=embedding_dim, drouput=net_dropout)
                                            for i in range(fft_layers)])
-        self.fc = nn.Linear(feature_map.num_fields * attention_dim * num_heads, 1)
+        self.fc = nn.Linear(feature_map.num_fields * embedding_dim * num_heads, 1)
         self.output_activation = self.get_output_activation(task)
         self.compile(kwargs["optimizer"], loss=kwargs["loss"], lr=learning_rate)
         self.reset_parameters()
