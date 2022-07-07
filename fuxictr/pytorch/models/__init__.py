@@ -41,3 +41,5 @@ from .AOANet import AOANet
 from .DeepFM_fft import DeepFM_fft
 from .DCN_fft import DCN_fft
 from .AutoInt_fft import AutoInt_fft
+from .DNN_fft import DNN_fft
+from .DNN_pool import DNN_pool

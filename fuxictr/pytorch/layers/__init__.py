@@ -7,5 +7,4 @@ from .attention import *
 from .interaction import *
 from .graph import *
 from .filterlayer import *
-
-
+from .pool import PoolLayer

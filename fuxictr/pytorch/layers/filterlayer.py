@@ -1,5 +1,6 @@
 import torch
 from torch import nn
+from fuxictr.pytorch.layers import MLP_Layer
 
 
 class LayerNorm(nn.Module):
@@ -25,6 +26,7 @@ class FilterLayer(nn.Module):
         self.complex_weight = nn.Parameter(torch.randn(1, max_seq_length // 2 + 1, hidden_size, 2, dtype=torch.float32) * alpha_fft)
         self.out_dropout = nn.Dropout(drouput)
         self.LayerNorm = LayerNorm(hidden_size, eps=1e-12)
+        self.dense = MLP_Layer(input_dim=hidden_size, output_dim=hidden_size, hidden_units=[hidden_size * 2], output_activation='ReLU', dropout_rates=drouput)
 
     def forward(self, input_tensor):
         # [batch, seq_len, hidden]
@@ -37,5 +39,5 @@ class FilterLayer(nn.Module):
         sequence_emb_fft = torch.fft.irfft(x, n=seq_len, dim=1, norm='ortho')
         hidden_states = self.out_dropout(sequence_emb_fft)
         hidden_states = self.LayerNorm(hidden_states + input_tensor)
-
+        hidden_states = self.dense(hidden_states)
         return hidden_states

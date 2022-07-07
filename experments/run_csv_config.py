@@ -9,7 +9,7 @@ from fuxictr import datasets
 from fuxictr import datasets
 from fuxictr.features import FeatureMap
 from fuxictr.utils import load_config, set_logger, print_to_json
-from fuxictr.pytorch.models import DeepFM, DeepFM_fft, AutoInt, AutoInt_fft, DCN, DCN_fft
+from fuxictr.pytorch.models import DeepFM, DeepFM_fft, AutoInt, AutoInt_fft, DCN, DCN_fft, DNN, DNN_fft, DNN_pool
 from fuxictr.pytorch.torch_utils import seed_everything
 
 import argparse
@@ -17,7 +17,7 @@ import argparse
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Model Params')
-    parser.add_argument('--experiment_id', type=str, default='AutoInt_base_avazu')
+    parser.add_argument('--experiment_id', type=str, default='DNN_pool_avazu')
     parser.add_argument('--gpu', type=int, default=0)
     return parser.parse_args()
 
@@ -92,12 +92,18 @@ if __name__ == '__main__':
         model = DCN(feature_map, **params)
     elif 'DCN_fft' in experiment_id:
         model = DCN_fft(feature_map, **params)
+    elif 'DNN_base' in experiment_id:
+        model = DNN(feature_map, **params)
+    elif 'DNN_fft' in experiment_id:
+        model = DNN_fft(feature_map, **params)
+    elif 'DNN_pool' in experiment_id:
+        model = DNN_pool(feature_map, **params)
     model.count_parameters()  # print number of parameters used in model
     model.fit_generator(train_gen,
                         validation_data=valid_gen,
                         epochs=params['epochs'],
                         verbose=params['verbose'])
-    model.load_weights(model.checkpoint) # reload the best checkpoint
+    model.load_weights(model.checkpoint)  # reload the best checkpoint
 
     logging.info('***** validation results *****')
     model.evaluate_generator(valid_gen)

@@ -42,6 +42,7 @@ class AutoInt_fft(BaseModel):
                  embedding_regularizer=None,
                  net_regularizer=None,
                  alpha_fft=0.02,
+                 fft_layers=1,
                  **kwargs):
         super(AutoInt_fft, self).__init__(feature_map,
                                           model_id=model_id,
@@ -62,17 +63,9 @@ class AutoInt_fft(BaseModel):
                              batch_norm=batch_norm,
                              use_bias=True) \
             if dnn_hidden_units else None  # in case no DNN used
-        self.self_attention = nn.Sequential(
-            *[MultiHeadSelfAttention(embedding_dim if i == 0 else num_heads * attention_dim,
-                                     attention_dim=attention_dim,
-                                     num_heads=num_heads,
-                                     dropout_rate=net_dropout,
-                                     use_residual=use_residual,
-                                     use_scale=use_scale,
-                                     layer_norm=layer_norm,
-                                     align_to="output")
-              for i in range(attention_layers)])
-        self.fc = nn.Linear(feature_map.num_fields * embedding_dim * num_heads, 1)
+        self.filterlayer = nn.Sequential(*[FilterLayer(alpha_fft=alpha_fft, max_seq_length=feature_map.num_fields, hidden_size=embedding_dim, drouput=net_dropout)
+                                           for i in range(fft_layers)])
+        self.fc = nn.Linear(feature_map.num_fields * attention_dim * num_heads, 1)
         self.output_activation = self.get_output_activation(task)
         self.compile(kwargs["optimizer"], loss=kwargs["loss"], lr=learning_rate)
         self.reset_parameters()
@@ -84,7 +77,6 @@ class AutoInt_fft(BaseModel):
         """
         X, y = self.inputs_to_device(inputs)
         feature_emb = self.embedding_layer(X)
-        # attention_out = self.self_attention(feature_emb)
         attention_out = self.filterlayer(feature_emb)
         attention_out = torch.flatten(attention_out, start_dim=1)
         y_pred = self.fc(attention_out)
