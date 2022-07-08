@@ -35,10 +35,11 @@ class DNN_pool(BaseModel):
                  batch_norm=False,
                  embedding_regularizer=None,
                  net_regularizer=None,
-                 num_cluster=10,
+                 num_cluster=[10],
                  pool_mlp_layers=2,
                  pool_attention_layers=2,
                  softmax_dim=-1,
+                 cascade=False,
                  **kwargs):
         super(DNN_pool, self).__init__(feature_map,
                                        model_id=model_id,
@@ -47,8 +48,16 @@ class DNN_pool(BaseModel):
                                        net_regularizer=net_regularizer,
                                        **kwargs)
         self.embedding_layer = EmbeddingLayer(feature_map, embedding_dim)
-        self.pool = PoolLayer(feature_map.num_fields, num_clusters=num_cluster, embedding_dim=embedding_dim, mlp_layers=pool_mlp_layers, net_dropout=net_dropout,
-                              pool_attention_layers=pool_attention_layers, softmax_dim=softmax_dim)
+        self.pool = []
+        self.cascade = cascade
+        for i, num in enumerate(num_cluster):
+            if cascade:
+                last_num = feature_map.num_fields if i == 0 else num_cluster[i - 1]
+            else:
+                last_num = feature_map.num_fields
+            self.pool.append(PoolLayer(last_num, num_clusters=num, embedding_dim=embedding_dim, mlp_layers=pool_mlp_layers, net_dropout=net_dropout,
+                                       pool_attention_layers=pool_attention_layers, softmax_dim=softmax_dim)
+                             )
         self.dnn = MLP_Layer(input_dim=embedding_dim * (feature_map.num_fields + num_cluster),
                              output_dim=1,
                              hidden_units=hidden_units,
@@ -66,8 +75,13 @@ class DNN_pool(BaseModel):
         """
         X, y = self.inputs_to_device(inputs)
         feature_emb = self.embedding_layer(X)
-        cluster_emb = self.pool(feature_emb)
-        all_emb = torch.cat([feature_emb, cluster_emb], dim=1)
+        all_emb = [feature_emb]
+        for pool in self.pool:
+            if self.cascade:
+                all_emb.append(pool(all_emb[-1]))
+            else:
+                all_emb.append(pool(feature_emb))
+        all_emb = torch.cat(all_emb, dim=1)
         y_pred = self.dnn(all_emb.flatten(start_dim=1))
         return_dict = {"y_true": y, "y_pred": y_pred}
         return return_dict

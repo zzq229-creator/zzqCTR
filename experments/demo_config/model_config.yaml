@@ -149,7 +149,7 @@ DCN_pool_avazu:
     use_hdf5: true
     verbose: 1
     workers: 3
-    num_cluster: 10
+    num_cluster: [10]
     pool_mlp_layers: 2
     pool_attention_layers: 2
 
@@ -231,7 +231,7 @@ DNN_pool_avazu:
     embedding_dim: 16
     embedding_dropout: 0
     embedding_regularizer: 1.0e-08
-    epochs: 100
+    epochs: 2
     every_x_epochs: 1
     hidden_activations: relu
     hidden_units: [1000, 1000, 1000, 1000]
@@ -255,10 +255,11 @@ DNN_pool_avazu:
     use_hdf5: true
     verbose: 1
     workers: 3
-    num_cluster: 10
+    num_cluster: [10,2]
     pool_mlp_layers: 2
     pool_attention_layers: 2
     softmax_dim: -1
+    cascade: false
 
 
 DNN_pool_avazu1:
@@ -269,7 +270,7 @@ DNN_pool_avazu1:
     embedding_dim: 16
     embedding_dropout: 0
     embedding_regularizer: 1.0e-08
-    epochs: 100
+    epochs: 2
     every_x_epochs: 1
     hidden_activations: relu
     hidden_units: [1000, 1000, 1000, 1000]
@@ -293,10 +294,12 @@ DNN_pool_avazu1:
     use_hdf5: true
     verbose: 1
     workers: 3
-    num_cluster: 2
+    num_cluster: [10,2]
     pool_mlp_layers: 2
     pool_attention_layers: 2
     softmax_dim: -1
+    cascade: true
+
 DNN_pool_avazu2:
     batch_norm: false
     batch_size: 10000
@@ -305,7 +308,7 @@ DNN_pool_avazu2:
     embedding_dim: 16
     embedding_dropout: 0
     embedding_regularizer: 1.0e-08
-    epochs: 100
+    epochs: 2
     every_x_epochs: 1
     hidden_activations: relu
     hidden_units: [1000, 1000, 1000, 1000]
@@ -329,10 +332,12 @@ DNN_pool_avazu2:
     use_hdf5: true
     verbose: 1
     workers: 3
-    num_cluster: 5
+    num_cluster: [12,6,2]
     pool_mlp_layers: 2
     pool_attention_layers: 2
     softmax_dim: -1
+    cascade: false
+
 DNN_pool_avazu3:
     batch_norm: false
     batch_size: 10000
@@ -341,7 +346,7 @@ DNN_pool_avazu3:
     embedding_dim: 16
     embedding_dropout: 0
     embedding_regularizer: 1.0e-08
-    epochs: 100
+    epochs: 2
     every_x_epochs: 1
     hidden_activations: relu
     hidden_units: [1000, 1000, 1000, 1000]
@@ -365,10 +370,11 @@ DNN_pool_avazu3:
     use_hdf5: true
     verbose: 1
     workers: 3
-    num_cluster: 8
+    num_cluster: [12,6,2]
     pool_mlp_layers: 2
     pool_attention_layers: 2
     softmax_dim: -1
+    cascade: true
 
 DNN_base_criteo:
     batch_norm: false
@@ -471,7 +477,7 @@ DNN_pool_criteo:
     use_hdf5: true
     verbose: 1
     workers: 3
-    num_cluster: 10
+    num_cluster: [10]
     pool_mlp_layers: 2
     pool_attention_layers: 2
 
