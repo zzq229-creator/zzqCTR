@@ -31,7 +31,7 @@ if __name__ == '__main__':
     from fuxictr.pytorch import models
     from fuxictr.pytorch.utils import seed_everything
 
-
+    params['gpu'] = args['gpu']
 
     set_logger(params)
     logging.info(print_to_json(params))

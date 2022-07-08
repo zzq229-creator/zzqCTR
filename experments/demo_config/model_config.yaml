@@ -226,7 +226,7 @@ DNN_fft_avazu:
 DNN_pool_avazu:
     batch_norm: false
     batch_size: 10000
-    dataset_id: avazu_x4_h5
+    dataset_id: taobao_tiny_h5
     debug: false
     embedding_dim: 16
     embedding_dropout: 0
@@ -257,7 +257,7 @@ DNN_pool_avazu:
     workers: 3
     num_cluster: [10,2]
     pool_mlp_layers: 2
-    pool_attention_layers: 2
+    pool_attention_layers: 1
     softmax_dim: -1
     cascade: false
 
@@ -296,7 +296,7 @@ DNN_pool_avazu1:
     workers: 3
     num_cluster: [10,2]
     pool_mlp_layers: 2
-    pool_attention_layers: 2
+    pool_attention_layers: 1
     softmax_dim: -1
     cascade: true
 

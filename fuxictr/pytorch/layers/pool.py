@@ -15,16 +15,18 @@ class PoolLayer(nn.Module):
                                      use_residual=False,
                                      align_to="output")
               for i in range(pool_attention_layers)])
-        self.dense_S = MLP_Layer(input_dim=hidden_dim,
+        self.dense_S = MLP_Layer(input_dim=hidden_dim * 2,
                                  output_dim=num_clusters,
-                                 hidden_units=[hidden_dim] * mlp_layers,
+                                 hidden_units=[hidden_dim * 5] * mlp_layers,
                                  output_activation=None,
                                  dropout_rates=net_dropout)
         self.softmax = nn.Softmax(dim=softmax_dim)
 
     def forward(self, input_tensor):
         hidden = self.self_attention(input_tensor)
-        S = self.dense_S(hidden)
+        hidden_sum = torch.sum(hidden, dim=1, keepdim=True)
+        hidden_sum = torch.tile(hidden_sum, [1, hidden.shape[1], 1])
+        S = self.dense_S(torch.concat([hidden, hidden_sum], -1))
         S = self.softmax(S)
         S = torch.transpose(S, 1, 2)
         res = torch.matmul(S, input_tensor)
