@@ -18,7 +18,7 @@ import torch
 from torch import nn
 from fuxictr.pytorch.models import BaseModel
 from fuxictr.pytorch.layers import EmbeddingLayer, MLP_Layer, PoolLayer
-
+from ..torch_utils import get_device
 
 class DNN_pool(BaseModel):
     def __init__(self,
@@ -56,9 +56,9 @@ class DNN_pool(BaseModel):
             else:
                 last_num = feature_map.num_fields
             self.pool.append(PoolLayer(last_num, num_clusters=num, embedding_dim=embedding_dim, mlp_layers=pool_mlp_layers, net_dropout=net_dropout,
-                                       pool_attention_layers=pool_attention_layers, softmax_dim=softmax_dim)
+                                       pool_attention_layers=pool_attention_layers, softmax_dim=softmax_dim).to(get_device(gpu))
                              )
-        self.dnn = MLP_Layer(input_dim=embedding_dim * (feature_map.num_fields + num_cluster),
+        self.dnn = MLP_Layer(input_dim=embedding_dim * (feature_map.num_fields + sum(num_cluster)),
                              output_dim=1,
                              hidden_units=hidden_units,
                              hidden_activations=hidden_activations,
