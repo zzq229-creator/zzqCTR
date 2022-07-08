@@ -4,7 +4,7 @@ from fuxictr.pytorch.layers import MLP_Layer, MultiHeadSelfAttention
 
 
 class PoolLayer(nn.Module):
-    def __init__(self, num_fields, num_clusters, embedding_dim, mlp_layers, net_dropout, pool_attention_layers):
+    def __init__(self, num_fields, num_clusters, embedding_dim, mlp_layers, net_dropout, pool_attention_layers, softmax_dim=-1):
         super(PoolLayer, self).__init__()
         hidden_dim = embedding_dim * 2
         self.self_attention = nn.Sequential(
@@ -20,11 +20,12 @@ class PoolLayer(nn.Module):
                                  hidden_units=[hidden_dim] * mlp_layers,
                                  output_activation=None,
                                  dropout_rates=net_dropout)
+        self.softmax = nn.Softmax(dim=softmax_dim)
 
     def forward(self, input_tensor):
         hidden = self.self_attention(input_tensor)
         S = self.dense_S(hidden)
-        S = nn.Softmax(dim=-1)(S)
+        S = self.softmax(S)
         S = torch.transpose(S, 1, 2)
         res = torch.matmul(S, input_tensor)
         return res

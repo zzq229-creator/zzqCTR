@@ -38,16 +38,17 @@ class DNN_pool(BaseModel):
                  num_cluster=10,
                  pool_mlp_layers=2,
                  pool_attention_layers=2,
+                 softmax_dim=-1,
                  **kwargs):
         super(DNN_pool, self).__init__(feature_map,
-                                  model_id=model_id,
-                                  gpu=gpu,
-                                  embedding_regularizer=embedding_regularizer,
-                                  net_regularizer=net_regularizer,
-                                  **kwargs)
+                                       model_id=model_id,
+                                       gpu=gpu,
+                                       embedding_regularizer=embedding_regularizer,
+                                       net_regularizer=net_regularizer,
+                                       **kwargs)
         self.embedding_layer = EmbeddingLayer(feature_map, embedding_dim)
         self.pool = PoolLayer(feature_map.num_fields, num_clusters=num_cluster, embedding_dim=embedding_dim, mlp_layers=pool_mlp_layers, net_dropout=net_dropout,
-                              pool_attention_layers=pool_attention_layers)
+                              pool_attention_layers=pool_attention_layers, softmax_dim=softmax_dim)
         self.dnn = MLP_Layer(input_dim=embedding_dim * (feature_map.num_fields + num_cluster),
                              output_dim=1,
                              hidden_units=hidden_units,
