@@ -62,8 +62,8 @@ DCN_pool_criteo:
     learning_rate: 0.001
     loss: binary_crossentropy
     metrics: [logloss, AUC]
-    model: DCN
-    model_id: DCN_base
+    model: DCN_pool
+    model_id: DCN_pool
     model_root: ./Criteo/DCN_pool_criteo_x4_001/
     monitor: {AUC: 1, logloss: -1}
     monitor_mode: max
@@ -132,8 +132,8 @@ DCN_pool_avazu:
     learning_rate: 0.001
     loss: binary_crossentropy
     metrics: [logloss, AUC]
-    model: DCN
-    model_id: DCN_base
+    model: DCN_pool
+    model_id: DCN_pool
     model_root: ./Avazu/DCN_pool_avazu_x4_001/
     monitor: {AUC: 1, logloss: -1}
     monitor_mode: max
@@ -203,8 +203,8 @@ DNN_fft_avazu:
     learning_rate: 0.001
     loss: binary_crossentropy
     metrics: [logloss, AUC]
-    model: DNN
-    model_id: DNN_base
+    model: DNN_fft
+    model_id: DNN_fft
     model_root: ./Avazu/DNN_fft_avazu_x4_001/
     monitor: {AUC: 1, logloss: -1}
     monitor_mode: max
@@ -238,8 +238,8 @@ DNN_pool_avazu:
     learning_rate: 0.001
     loss: binary_crossentropy
     metrics: [logloss, AUC]
-    model: DNN
-    model_id: DNN_base
+    model: DNN_pool
+    model_id: DNN_pool
     model_root: ./Avazu/DNN_pool_avazu_x4_001/
     monitor: {AUC: 1, logloss: -1}
     monitor_mode: max
@@ -276,8 +276,8 @@ DNN_pool_avazu1:
     learning_rate: 0.001
     loss: binary_crossentropy
     metrics: [logloss, AUC]
-    model: DNN
-    model_id: DNN_base
+    model: DNN_pool
+    model_id: DNN_pool
     model_root: ./Avazu/DNN_pool_avazu1_x4_001/
     monitor: {AUC: 1, logloss: -1}
     monitor_mode: max
@@ -312,8 +312,8 @@ DNN_pool_avazu2:
     learning_rate: 0.001
     loss: binary_crossentropy
     metrics: [logloss, AUC]
-    model: DNN
-    model_id: DNN_base
+    model: DNN_pool
+    model_id: DNN_pool
     model_root: ./Avazu/DNN_pool_avazu2_x4_001/
     monitor: {AUC: 1, logloss: -1}
     monitor_mode: max
@@ -348,8 +348,8 @@ DNN_pool_avazu3:
     learning_rate: 0.001
     loss: binary_crossentropy
     metrics: [logloss, AUC]
-    model: DNN
-    model_id: DNN_base
+    model: DNN_pool
+    model_id: DNN_pool
     model_root: ./Avazu/DNN_pool_avazu3_x4_001/
     monitor: {AUC: 1, logloss: -1}
     monitor_mode: max
@@ -418,8 +418,8 @@ DNN_fft_criteo:
     learning_rate: 0.001
     loss: binary_crossentropy
     metrics: [logloss, AUC]
-    model: DNN
-    model_id: DNN_base
+    model: DNN_fft
+    model_id: DNN_fft
     model_root: ./Criteo/DNN_fft_criteo_x4_001/
     monitor: {AUC: 1, logloss: -1}
     monitor_mode: max
@@ -454,8 +454,8 @@ DNN_pool_criteo:
     learning_rate: 0.001
     loss: binary_crossentropy
     metrics: [logloss, AUC]
-    model: DNN
-    model_id: DNN_base
+    model: DNN_pool
+    model_id: DNN_pool
     model_root: ./Criteo/DNN_pool_criteo_x4_001/
     monitor: {AUC: 1, logloss: -1}
     monitor_mode: max
@@ -563,8 +563,8 @@ AutoInt_fft_criteo:
     learning_rate: 0.001
     loss: binary_crossentropy
     metrics: [logloss, AUC]
-    model: AutoInt
-    model_id: AutoInt_base
+    model: AutoInt_fft
+    model_id: AutoInt_fft
     model_root: ./Criteo/AutoInt_fft_criteo_x4_001/
     monitor: {AUC: 1, logloss: -1}
     monitor_mode: max
@@ -645,8 +645,8 @@ AutoInt_fft_avazu:
     learning_rate: 0.001
     loss: binary_crossentropy
     metrics: [logloss, AUC]
-    model: AutoInt
-    model_id: AutoInt_base
+    model: AutoInt_fft
+    model_id: AutoInt_fft
     model_root: ./Avazu/AutoInt_fft_avazu_x4_001/
     monitor: {AUC: 1, logloss: -1}
     monitor_mode: max

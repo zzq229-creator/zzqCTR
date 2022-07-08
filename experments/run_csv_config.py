@@ -36,6 +36,7 @@ if __name__ == '__main__':
     seed_everything(seed=params['seed'])
 
     if 'h5' in params['dataset_id']:
+
         # Load feature_map from json
         data_dir = os.path.join(params['data_root'], params['dataset_id'])
         feature_map = FeatureMap(params['dataset_id'], data_dir)
