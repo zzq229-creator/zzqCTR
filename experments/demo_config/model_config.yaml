@@ -328,6 +328,43 @@ DNN_fft_criteo:
     fft_layers: 3
 
 
+DNN_pool_criteo:
+    batch_norm: false
+    batch_size: 10000
+    dataset_id: criteo_x4_h5
+    debug: false
+    embedding_dim: 16
+    embedding_dropout: 0
+    embedding_regularizer: 1.0e-05
+    epochs: 100
+    every_x_epochs: 1
+    hidden_activations: relu
+    hidden_units: [1000, 1000, 1000, 1000, 1000]
+    learning_rate: 0.001
+    loss: binary_crossentropy
+    metrics: [logloss, AUC]
+    model: DNN
+    model_id: DNN_base
+    model_root: ./Criteo/DNN_pool_criteo_x4_001/
+    monitor: {AUC: 1, logloss: -1}
+    monitor_mode: max
+    net_dropout: 0.2
+    net_regularizer: 0
+    optimizer: adam
+    patience: 2
+    pickle_feature_encoder: true
+    save_best_only: true
+    seed: 2019
+    shuffle: true
+    task: binary_classification
+    use_hdf5: true
+    verbose: 1
+    workers: 3
+    num_cluster: 10
+    pool_mlp_layers: 2
+    pool_attention_layers: 2
+
+
 AutoInt_base:
     model: AutoInt
     dataset_id: taobao_tiny
@@ -459,7 +496,7 @@ AutoInt_base_avazu:
     metrics: [logloss, AUC]
     model: AutoInt
     model_id: AutoInt_base
-    model_root: ./Avazu/AutoInt_avazu_x4_001/
+    model_root: ./Avazu/AutoInt_base_avazu_x4_001/
     monitor: {AUC: 1, logloss: -1}
     monitor_mode: max
     net_dropout: 0
@@ -480,7 +517,7 @@ AutoInt_base_avazu:
     workers: 3
 
 AutoInt_fft_avazu:
-    dataset_id: avazu_x4_h5
+    dataset_id: taobao_tiny
     attention_dim: 128
     attention_layers: 7
     batch_norm: false
